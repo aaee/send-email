@@ -31,7 +31,7 @@ def main():
     """Shows basic usage of the Gmail API.
     Lists the user's Gmail labels.
     """
-    print(dir_abs)
+    #print(dir_abs)
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
