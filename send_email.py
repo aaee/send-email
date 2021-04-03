@@ -23,32 +23,33 @@ receiver = environ['RECEIVER']
 receiver_cc = environ['RECEIVER_CC']
 
 
-
 dir_abs = path.dirname(__file__)
-print(dir_abs)
+dir_abs = dir_abs + '/' if len(dir_abs) > 0 else dir_abs
+
 
 def main():
     """Shows basic usage of the Gmail API.
     Lists the user's Gmail labels.
     """
-    #print(dir_abs)
+
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if path.exists(dir_abs + '/token.pickle'):
-        with open(dir_abs + '/token.pickle', 'rb') as token:
+    if path.exists(dir_abs + 'token.pickle'):
+        with open(dir_abs + 'token.pickle', 'rb') as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
+            print(dir_abs + '/credentials.json')
             flow = InstalledAppFlow.from_client_secrets_file(
-                dir_abs + '/credentials.json', SCOPES)
+                dir_abs + 'credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open(dir_abs + '/token.pickle', 'wb') as token:
+        with open(dir_abs + 'token.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
     service = build('gmail', 'v1', credentials=creds)
@@ -103,7 +104,7 @@ def create_content_nikhil():
 
 
 
-    with open(dir_abs + '/Quotes.csv', 'r') as quotes_file:
+    with open(dir_abs + 'Quotes.csv', 'r') as quotes_file:
         # seed random number generator
         seed(day)
         # prepare a sequence
@@ -141,7 +142,7 @@ Best,
     Ali's bot on behalf of Ali :) 
     """
 
-    with open(dir_abs + '/Quotes.csv', 'r') as quotes_file:
+    with open(dir_abs + 'Quotes.csv', 'r') as quotes_file:
         # prepare a sequence
         lines_quote = [i for i in range(75900)]
         # make a choice
@@ -152,7 +153,7 @@ Best,
         # print(daily_quote)
     
     # source of jokes: https://github.com/amoudgl/short-jokes-dataset
-    with open(dir_abs + '/reddit-cleanjokes.csv', 'r') as jokes_file:
+    with open(dir_abs + 'reddit-cleanjokes.csv', 'r') as jokes_file:
         # choose a line
         lines_joke = [i for i in range(1,1622)]  
         selection_joke = choice(lines_joke)    
