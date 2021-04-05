@@ -11,6 +11,8 @@ from urllib.error import HTTPError
 from datetime import datetime
 from random import seed, choice
 from dotenv import load_dotenv
+import schedule
+import time
 
 load_dotenv()
  
@@ -32,9 +34,24 @@ dir_abs = dir_abs + '/' if len(dir_abs) > 0 else dir_abs
 
 
 def main():
-    """Shows basic usage of the Gmail API.
-    Lists the user's Gmail labels.
-    """
+    #schedule.every().day.at("10:30").do(send_email)
+    schedule.every(5).minutes.do(send_email)
+
+       
+    while True:
+    # run_pending
+      schedule.run_pending()
+      time.sleep(1)
+ 
+
+
+
+
+
+
+
+
+def send_email():
 
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
@@ -63,28 +80,18 @@ def main():
             pickle.dump(creds, token)
 
     service = build('gmail', 'v1', credentials=creds)
-
     # send email
-    subject = 'Good luck...'
+    subject = 'Good morning!'
     message_text = create_content_ice_breaker()
     print('sending')
     print(message_text)
     message_1 = create_message(sender, receiver, subject, message_text, cc=receiver_cc)
     #message_2 = create_message(sender, 'nikhil.ninne@gmail.com', subject, message_text, cc='alicia.esquivias@gmail.com, nikhil.ninne@gmail.com')
-    send_message(service, 'me', message_1)
+    #send_message(service, 'me', message_1)
     #send_message(service, 'me', message_2)
 
 
-    # # Call the Gmail API
-    # results = service.users().labels().list(userId='me').execute()
-    # labels = results.get('labels', [])
-    #
-    # if not labels:
-    #     print('No labels found.')
-    # else:
-    #     print('Labels:')
-    #     for label in labels:
-    #         print(label['name'])
+
 
 
 def create_content_nikhil():
