@@ -87,7 +87,7 @@ def send_email():
     print(message_text)
     message_1 = create_message(sender, receiver, subject, message_text, cc=receiver_cc)
     #message_2 = create_message(sender, 'nikhil.ninne@gmail.com', subject, message_text, cc='alicia.esquivias@gmail.com, nikhil.ninne@gmail.com')
-    #send_message(service, 'me', message_1)
+    send_message(service, 'me', message_1)
     #send_message(service, 'me', message_2)
 
 
