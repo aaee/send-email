@@ -4,6 +4,7 @@ from os import path,environ
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from google.oauth2 import service_account
 from email.mime.text import MIMEText
 import base64
 from urllib.error import HTTPError
@@ -47,7 +48,9 @@ def main():
             print(dir_abs + '/credentials.json')
             flow = InstalledAppFlow.from_client_secrets_file(
                 dir_abs + 'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
+            creds = flow.run_local_server(port=8080)
+            #creds = service_account.Credentials.from_service_account_file(dir_abs + 'credentials.json', scopes=SCOPES)
+            #delegated_credentials = creds.with_subject('ali.abril4@gmail.com')
         # Save the credentials for the next run
         with open(dir_abs + 'token.pickle', 'wb') as token:
             pickle.dump(creds, token)
