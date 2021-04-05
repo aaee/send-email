@@ -34,8 +34,8 @@ dir_abs = dir_abs + '/' if len(dir_abs) > 0 else dir_abs
 
 
 def main():
-    #schedule.every().day.at("10:30").do(send_email)
-    schedule.every(5).minutes.do(send_email)
+    schedule.every().day.at("09:30").do(send_email)
+    #schedule.every(5).minutes.do(send_email)
 
        
     while True:
