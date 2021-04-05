@@ -4,7 +4,7 @@ from os import path,environ
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-from google.oauth2 import service_account
+from google.oauth2 import service_account, credentials
 from email.mime.text import MIMEText
 import base64
 from urllib.error import HTTPError
@@ -22,7 +22,10 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.compose']
 sender = environ['SENDER']
 receiver = environ['RECEIVER']
 receiver_cc = environ['RECEIVER_CC']
-
+refresh_token_var = environ['REFRESH_TOKEN']
+token_uri = environ['TOKEN_URI']
+client_id = environ['CLIENT_ID']
+client_secret = environ['CLIENT_SECRET']
 
 dir_abs = path.dirname(__file__)
 dir_abs = dir_abs + '/' if len(dir_abs) > 0 else dir_abs
@@ -44,6 +47,10 @@ def main():
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
+        elif refresh_token_var:
+          print('trying this new thing')
+          creds = credentials.Credentials(None,refresh_token=refresh_token_var, token_uri=token_uri, client_id=client_id, client_secret=client_secret)
+          creds.refresh(Request())
         else:
             print(dir_abs + '/credentials.json')
             flow = InstalledAppFlow.from_client_secrets_file(
