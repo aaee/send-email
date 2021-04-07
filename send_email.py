@@ -39,7 +39,7 @@ dir_abs = dir_abs + '/' if len(dir_abs) > 0 else dir_abs
 
 def main():
 
-    print('stating')
+    print('starting')
     schedule.every().day.at("07:30").do(send_email)
     #schedule.every(5).minutes.do(send_email)
     #send_email()
@@ -98,8 +98,8 @@ def send_email():
     print('sending german email')
     #print(message_text_german)
     subject_german = "Kein Problem!!"
-    #message_2 = create_message(sender, receiver_german, subject_german, message_text_german, cc=receiver_cc, parse_html=True)
-    #send_message(service, 'me', message_2)
+    message_2 = create_message(sender, receiver_german, subject_german, message_text_german, cc=receiver_cc, parse_html=True)
+    send_message(service, 'me', message_2)
 
 
 
@@ -151,59 +151,40 @@ def create_content_nikhil():
 def create_content_ice_breaker():
     font_family = "'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif"
     text = """
-    <body>
-    <div style="margin-left:10%; margin-right:10%">
+
+    <div style="margin-left:20%; margin-right:20%">
     <h4 style="font-family:{font_family};font-size:20px;font-style:normal;font-weight:bold;line-height:150%;letter-spacing:1px;text-align:center">Good Morning Everyone!!!</h4>
 
-    <p style="text-align: center;"><img src="/images/joke.png" alt= "" width="70%" height="auto""img" />
+    <p style="text-align: center;"><img src="https://img.icons8.com/doodle/96/000000/sun--v1.png"/>
     <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">I would like to brighten up the start of your day by sharing a super funny joke. Here you have:<span>&nbsp;</span></p>
+    <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
+    <p style="text-align: center;"><img src="https://img.icons8.com/doodle/96/000000/garland.png"/>
+ 
+    <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:italic;font-weight:normal;line-height:120%;letter-spacing:2px;text-align:center"><span>{joke}</span></p>
 
     <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
 
-    <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:2px;text-align:center"><span>{joke}</span></p>
-
-    <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
-
-
+    
     <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Moreover, I would like to share some wisdom about <strong> {topic} </strong>. Here you have a super deep and useful quote. Please reflect on it and try to find its meaning and moral.<span>&nbsp;</span></p>
+    <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
+    <p style="text-align: center;"><img src="https://img.icons8.com/bubbles/100/000000/comments.png"/>
+
+    <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:italic;font-weight:normal;line-height:120%;letter-spacing:2px;text-align:center"><span>"{quote}"</span></p>
+    <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:normal;font-weight:normal;line-height:120%;letter-spacing:2px;text-align:center"><span>-- {by}</span></p>
 
     <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
 
-    <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:italic;font-weight:normal;line-height:100%;letter-spacing:2px;text-align:center"><span>"{quote}"</span></p>
-    <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:2px;text-align:center"><span>-- {by}</span></p>
-
-    <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
-
+    <p style="text-align: center;"><img src="https://img.icons8.com/officel/80/000000/idea.png"/>
     <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Any thoughts? I'm sure you can share something interesting!<span>&nbsp;</span></p>
 
+   
     <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Have an awesome day! <span>&nbsp;</span></p>
 
     <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Ali's bot on behalf of Ali :) <span>&nbsp;</span></p>
     </div>
-    </body>
     """
 
-    text_old = """
-Good Morning Everyone!!!
-    
-I would like to brighten up the start of your day by sharing a super funny joke. Here you have:
 
-       {joke}
-
-Moreover, I would like to share some wisdom about {topic}. Here you have a super deep and useful quote. Please reflect on it and try to find its meaning and moral.
-    
-        "{quote}"
-        -- {by}
-        
-    
-Any thoughts? I'm sure you can share something interesting!
-
-Have an awesome day! 
-    
-Best, 
-    
-    Ali's bot on behalf of Ali :) 
-    """
 
     with open(dir_abs + 'Quotes.csv', 'r') as quotes_file:
         # prepare a sequence
@@ -231,7 +212,7 @@ def create_content_german():
     text = '''
     <div style="margin-left:10%; margin-right:10%">
     <h4 style="font-family:{font_family};font-size:20px;font-style:normal;font-weight:bold;line-height:150%;letter-spacing:1px;text-align:center">Hallo Blanchis Burger!</h4>
-
+    <p style="text-align: center;"><img src="https://img.icons8.com/doodle/96/000000/sun--v1.png"/>
     <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Ich m&ouml;chte dass wir perfekt Deutsch sprechen k&ouml;nnen. Daf&uuml;r m&uuml;ssen wir viele Redewendungen lernen.<span>&nbsp;</span></p>
 
     <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:2px;text-align:center"><span>UNTEN FINDEST DU DIE HEUTIGEN REDEWENDUNGEN:</span></p>
