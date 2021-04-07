@@ -38,15 +38,17 @@ dir_abs = dir_abs + '/' if len(dir_abs) > 0 else dir_abs
 
 
 def main():
-    #schedule.every().day.at("09:30").do(send_email)
+
+    print('stating')
+    schedule.every().day.at("07:30").do(send_email)
     #schedule.every(5).minutes.do(send_email)
-    send_email()
+    #send_email()
 
        
-    #while True:
-    # run_pending
-    #  schedule.run_pending()
-    #  time.sleep(1)
+    while True:
+      run_pending
+      schedule.run_pending()
+      time.sleep(1)
  
 
 
@@ -89,7 +91,7 @@ def send_email():
     message_text = create_content_ice_breaker()
     print('sending icebreaker email')
     #print(message_text)
-    message_1 = create_message(sender, receiver, subject, message_text, cc=receiver_cc)
+    message_1 = create_message(sender, receiver, subject, message_text, cc=receiver_cc, parse_html=True)
     send_message(service, 'me', message_1)
     
     # send email - german idiom
@@ -97,8 +99,8 @@ def send_email():
     print('sending german email')
     #print(message_text_german)
     subject_german = "Kein Problem!!"
-    message_2 = create_message(sender, receiver_german, subject_german, message_text_german, cc=receiver_cc, parse_html=True)
-    send_message(service, 'me', message_2)
+    #message_2 = create_message(sender, receiver_german, subject_german, message_text_german, cc=receiver_cc, parse_html=True)
+    #send_message(service, 'me', message_2)
 
 
 
@@ -148,7 +150,42 @@ def create_content_nikhil():
 
 
 def create_content_ice_breaker():
+    font_family = "'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif"
     text = """
+    <head> <script src="https://kit.fontawesome.com/08488ffec2.js" crossorigin="anonymous"></script> </head>
+    <body>
+    <div style="margin-left:10%; margin-right:10%">
+    <h4 style="font-family:{font_family};font-size:20px;font-style:normal;font-weight:bold;line-height:150%;letter-spacing:1px;text-align:center">Good Morning Everyone!!!</h4>
+    <i class="fab fa-html5"></i>
+    <p style="text-align: center;"><img src="/images/joke.png" alt= "" width="70%" height="auto""img" />
+    <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">I would like to brighten up the start of your day by sharing a super funny joke. Here you have:<span>&nbsp;</span></p>
+
+    <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
+
+    <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:2px;text-align:center"><span>{joke}</span></p>
+
+    <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
+
+
+    <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Moreover, I would like to share some wisdom about <strong> {topic} </strong>. Here you have a super deep and useful quote. Please reflect on it and try to find its meaning and moral.<span>&nbsp;</span></p>
+
+    <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
+
+    <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:italic;font-weight:normal;line-height:100%;letter-spacing:2px;text-align:center"><span>"{quote}"</span></p>
+    <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:2px;text-align:center"><span>-- {by}</span></p>
+
+    <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
+
+    <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Any thoughts? I'm sure you can share something interesting!<span>&nbsp;</span></p>
+
+    <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Have an awesome day! <span>&nbsp;</span></p>
+
+    <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Ali's bot on behalf of Ali :) <span>&nbsp;</span></p>
+    </div>
+    </body>
+    """
+
+    text_old = """
 Good Morning Everyone!!!
     
 I would like to brighten up the start of your day by sharing a super funny joke. Here you have:
@@ -188,7 +225,7 @@ Best,
         daily_joke = jokes_file.readlines()[selection_joke]
         daily_joke = daily_joke.split(',', maxsplit=1)
       
-    return text.format(joke=daily_joke[1], quote=daily_quote[0], by=daily_quote[1], topic=daily_quote[2])
+    return text.format(font_family=font_family, joke=daily_joke[1], quote=daily_quote[0], by=daily_quote[1], topic=daily_quote[2])
 
 
 def create_content_german():
