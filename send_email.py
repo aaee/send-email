@@ -46,7 +46,6 @@ def main():
 
        
     while True:
-      run_pending
       schedule.run_pending()
       time.sleep(1)
  
@@ -152,11 +151,10 @@ def create_content_nikhil():
 def create_content_ice_breaker():
     font_family = "'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif"
     text = """
-    <head> <script src="https://kit.fontawesome.com/08488ffec2.js" crossorigin="anonymous"></script> </head>
     <body>
     <div style="margin-left:10%; margin-right:10%">
     <h4 style="font-family:{font_family};font-size:20px;font-style:normal;font-weight:bold;line-height:150%;letter-spacing:1px;text-align:center">Good Morning Everyone!!!</h4>
-    <i class="fab fa-html5"></i>
+
     <p style="text-align: center;"><img src="/images/joke.png" alt= "" width="70%" height="auto""img" />
     <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">I would like to brighten up the start of your day by sharing a super funny joke. Here you have:<span>&nbsp;</span></p>
 
