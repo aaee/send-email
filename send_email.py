@@ -1,10 +1,10 @@
 from __future__ import print_function
 import pickle
 from os import path,environ
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
-from google.oauth2 import service_account, credentials
+# from googleapiclient.discovery import build
+# from google_auth_oauthlib.flow import InstalledAppFlow
+# from google.auth.transport.requests import Request
+# from google.oauth2 import service_account, credentials
 from email.mime.text import MIMEText
 import base64
 from urllib.error import HTTPError
@@ -13,6 +13,7 @@ from random import seed, choice
 from dotenv import load_dotenv
 import schedule
 import time
+import smtplib, ssl
 
 load_dotenv()
  
@@ -21,16 +22,12 @@ load_dotenv()
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/gmail.compose']
-sender = environ['SENDER']
-receiver = environ['RECEIVER']
-receiver_cc = environ['RECEIVER_CC']
-receiver_german = environ['RECEIVER_GERMAN']
-receiver_german_cc = environ['RECEIVER_GERMAN_CC']
-refresh_token_var = environ['REFRESH_TOKEN']
-token_uri = environ['TOKEN_URI']
-client_id = environ['CLIENT_ID']
-client_secret = environ['CLIENT_SECRET']
-    
+sender = environ.get('SENDER')
+receiver = environ.get('RECEIVER')
+receiver_cc = environ.get('RECEIVER_CC')
+receiver_german = environ.get('RECEIVER_GERMAN')
+receiver_german_cc = environ.get('RECEIVER_GERMAN_CC')
+email_password = environ.get('EMAIL_PASSWORD')    
 
 
 dir_abs = path.dirname(__file__)
@@ -40,69 +37,46 @@ dir_abs = dir_abs + '/' if len(dir_abs) > 0 else dir_abs
 def main():
 
     print('starting')
-    schedule.every().day.at("07:30").do(send_email)
+    #schedule.every().day.at("07:30").do(send_email)
     #schedule.every(5).minutes.do(send_email)
-    #send_email()
+    send_email()
 
        
-    while True:
-      schedule.run_pending()
-      time.sleep(1)
+    #while True:
+    #  schedule.run_pending()
+    #  time.sleep(1)
  
-
-
-
-
 
 
 
 
 def send_email():
 
-    creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if path.exists(dir_abs + 'token.pickle'):
-        with open(dir_abs + 'token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        elif refresh_token_var:
-          print('using refresh tocket for OAUTH')
-          creds = credentials.Credentials(None,refresh_token=refresh_token_var, token_uri=token_uri, client_id=client_id, client_secret=client_secret)
-          creds.refresh(Request())
-        else:
-            print(dir_abs + '/credentials.json')
-            flow = InstalledAppFlow.from_client_secrets_file(
-                dir_abs + 'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=8080)
+    port = 465  # For SSL
 
-        # Save the credentials for the next run
-        with open(dir_abs + 'token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
-
-    service = build('gmail', 'v1', credentials=creds)
+    # Create a secure SSL context
+    context = ssl.create_default_context()
+    message_text = create_content_ice_breaker()
+    message = MIMEText(message_text, 'html')
     # send email - ice breaker
     subject = 'Good morning!'
     message_text = create_content_ice_breaker()
     print('sending icebreaker email')
     #print(message_text)
     message_1 = create_message(sender, receiver, subject, message_text, cc=receiver_cc, parse_html=True)
-    send_message(service, 'me', message_1)
-    
+
     # send email - german idiom
     message_text_german = create_content_german()
     print('sending german email')
     #print(message_text_german)
     subject_german = "Kein Problem!!"
     message_2 = create_message(sender, receiver_german, subject_german, message_text_german, cc=receiver_cc, parse_html=True)
-    send_message(service, 'me', message_2)
 
 
-
+    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+        server.login(sender, email_password)
+        server.sendmail(sender, receiver, message_1)
+        server.sendmail(sender, receiver, message_2)
 
 
 
@@ -242,7 +216,7 @@ def create_content_german():
     </div>
     '''
     # get index for idiom
-    first_day = datetime.strptime('2021-04-07', '%Y-%m-%d')
+    first_day = datetime.strptime('2021-04-11', '%Y-%m-%d')
     days_diff = (datetime.now() - first_day).days + 1
     #print(days_diff)
 
@@ -279,28 +253,9 @@ def create_message(sender, to, subject, message_text, cc=None, parse_html=False)
   message['subject'] = subject
   if cc is not None:
       message['cc'] = cc
-  return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
+  return message.as_string()
 
 
-
-def send_message(service, user_id, message):
-  """Send an email message.
-
-  Args:
-    service: Authorized Gmail API service instance.
-    user_id: User's email address. The special value "me"
-    can be used to indicate the authenticated user.
-    message: Message to be sent.
-
-  Returns:
-    Sent Message.
-  """
-  try:
-    message = (service.users().messages().send(userId=user_id, body=message).execute())
-    print('Message Id: ', message['id'])
-    return message
-  except HTTPError as error:
-    print('An error occurred: ', error)
 
 if __name__ == '__main__':
     main()
