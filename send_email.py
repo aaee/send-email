@@ -39,7 +39,7 @@ def main():
     print('starting')
     schedule.every().day.at("07:30").do(send_email)
     #schedule.every(5).minutes.do(send_email)
-    send_email()
+    #send_email()
 
        
     while True:
@@ -75,8 +75,8 @@ def send_email():
 
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login(sender, email_password)
-        server.sendmail(sender, receiver, message_1)
-        server.sendmail(sender, receiver, message_2)
+        server.sendmail(sender, [receiver] + [receiver_cc] , message_1)
+        server.sendmail(sender, [receiver_german] + [receiver_cc] , message_2)
 
 
 
