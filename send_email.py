@@ -39,7 +39,7 @@ def main():
     print('starting')
     schedule.every().day.at("07:30").do(send_email)
     #schedule.every(5).minutes.do(send_email)
-    #send_email()
+    # send_email()
 
        
     while True:
@@ -75,8 +75,8 @@ def send_email():
 
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login(sender, email_password)
-        server.sendmail(sender, [receiver] + [receiver_cc] , message_1)
-        server.sendmail(sender, [receiver_german] + [receiver_cc] , message_2)
+        server.sendmail(sender, receiver.split(',') + receiver_cc.split(',') , message_1)
+        server.sendmail(sender, receiver_german.split(',') + receiver_cc.split(',') , message_2)
 
 
 
@@ -139,7 +139,7 @@ def create_content_ice_breaker():
     <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
 
     
-    <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Moreover, I would like to share some wisdom about <strong> {topic} </strong>. Here you have a super deep and useful quote. Please reflect on it and try to find its meaning and moral.<span>&nbsp;</span></p>
+    <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Moreover, I would like to share some wisdom about <strong> {topic}</strong>. Here you have a super deep and useful quote. Please reflect on it and try to find its meaning and moral.<span>&nbsp;</span></p>
     <hr style="text-align:center;color:gray;border: 0 none;border-top:dotted 1px;">
     <p style="text-align: center;"><img src="https://img.icons8.com/bubbles/100/000000/comments.png"/>
 
@@ -187,7 +187,7 @@ def create_content_german():
     <div style="margin-left:10%; margin-right:10%">
     <h4 style="font-family:{font_family};font-size:20px;font-style:normal;font-weight:bold;line-height:150%;letter-spacing:1px;text-align:center">Hallo Blanchis Burger!</h4>
     <p style="text-align: center;"><img src="https://img.icons8.com/doodle/96/000000/sun--v1.png"/>
-    <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Ich m&ouml;chte dass wir perfekt Deutsch sprechen k&ouml;nnen. Daf&uuml;r m&uuml;ssen wir viele Redewendungen lernen.<span>&nbsp;</span></p>
+    <p style="font-family:{font_family};font-size:18px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:1px;text-align:center">Ich m&ouml;chte, dass wir perfekt Deutsch sprechen k&ouml;nnen. Daf&uuml;r m&uuml;ssen wir viele Redewendungen lernen.<span>&nbsp;</span></p>
 
     <p style="color:#43404d;font-family:{font_family};font-size:16px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:2px;text-align:center"><span>UNTEN FINDEST DU DIE HEUTIGEN REDEWENDUNGEN:</span></p>
     
