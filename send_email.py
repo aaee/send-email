@@ -47,9 +47,9 @@ def main():
     # send_email()
 
        
-    # while True:
-    #   schedule.run_pending()
-    #   time.sleep(100)
+    while True:
+      schedule.run_pending()
+      time.sleep(100000)
  
 
 
@@ -61,7 +61,7 @@ def send_email():
 
     # Create a secure SSL context
     context = ssl.create_default_context()
-    
+
     # send email - ice breaker
     # subject = 'Good morning!'
     # message_text = create_content_ice_breaker(dir_abs)
