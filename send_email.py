@@ -48,8 +48,9 @@ def main():
 
        
     while True:
+      print('checking pending emails')
       schedule.run_pending()
-      time.sleep(100000)
+      time.sleep(3600)
  
 
 
@@ -65,7 +66,7 @@ def send_email():
     # send email - ice breaker
     # subject = 'Good morning!'
     # message_text = create_content_ice_breaker(dir_abs)
-    print('sending icebreaker email')
+    # print('sending icebreaker email')
     #print(message_text)
     # message_1 = create_message(sender, receiver, subject, message_text, cc=receiver_cc, parse_html=True)
 
