@@ -42,9 +42,9 @@ dir_abs = dir_abs + '/' if len(dir_abs) > 0 else dir_abs
 def main():
 
     print('starting')
-    schedule.every().monday.at("07:30").do(send_email)
+    schedule.every().monday.at("08:30").do(send_email)
     #schedule.every(5).minutes.do(send_email)
-    # send_email()
+    send_email()
 
        
     while True:
